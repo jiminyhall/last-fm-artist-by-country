@@ -1,4 +1,4 @@
-#fixedTitle { 
+#fixedTitle {
   position: fixed;
   margin-top: 5px;le
   height: 50px;
@@ -12,6 +12,15 @@
   width: 640px;
 }
 
+#fixedNames {
+  text-align: left;
+  position: fixed;
+  top:   540px;
+  width: 640px;
+  height: 70px;
+  /* background-color: red; */
+}
+
 svg {
   border: 3px solid black;
   border-radius:50%;
@@ -21,14 +30,14 @@ svg {
   top: 150px;
 }
 
-.subunit { 
-  stroke: #ffff33; 
+.subunit {
+  stroke: #ffff33;
   fill: black;
 }
 
 #loader_pc {
   float: right;
-  
+
 }
 
 #loader {
@@ -69,16 +78,16 @@ svg {
 }
 
 @-webkit-keyframes animatebottom {
-  from { bottom:-100px; opacity:0 } 
+  from { bottom:-100px; opacity:0 }
   to { bottom:0px; opacity:1 }
 }
 
-@keyframes animatebottom { 
-  from{ bottom:-100px; opacity:0 } 
+@keyframes animatebottom {
+  from{ bottom:-100px; opacity:0 }
   to{ bottom:0; opacity:1 }
 }
 
-body { 
+body {
   background-color: black;
   color: #ffff33;
   text-align: center;
@@ -102,7 +111,7 @@ a:hover { text-decoration: underline; }
   z-index:1;
 }
 
-ul,ol,li { 
+ul,ol,li {
   list-style: none;
 }
 
@@ -117,6 +126,5 @@ img {
   text-align: left;
   width: 300px;
   // margin-left: auto;
-  
-}
 
+}

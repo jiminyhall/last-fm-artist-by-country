@@ -1,5 +1,5 @@
 /*
- * array of artists objects - { name, [countries] }; 
+ * array of artists objects - { name, [countries] };
  */
 var countries_test = ["United States", "United Kingdom", "France"];
 
@@ -249,7 +249,7 @@ var allCountries = [];
 $.each(countries, function(i, c) {
 
   // https://ws.audioscrobbler.com//2.0/?method=geo.gettopartists&country=spain&api_key=58c7574ddd5054ce095f027a95a92e58&format=json
-  
+
   $.ajax({
     type: 'POST',
     url: 'https://ws.audioscrobbler.com/2.0/',
@@ -270,7 +270,7 @@ $.each(countries, function(i, c) {
         };
         allCountries.push(c_data);
 
-        
+
         var arts = "" + c + ": ";
 
         $.each(data.topartists.artist, function(i, item) {
@@ -333,7 +333,7 @@ $.each(countries, function(i, c) {
                     $.each(item.countries, function(i,i_c) {
                       str = str + i_c + "; ";
                     });
-  
+
                     str = str.substr(0,str.length-2) + "</td></tr>";
                     console.log(str);
                     */
@@ -346,8 +346,8 @@ $.each(countries, function(i, c) {
         document.getElementById("loader").style.display = "none";
         document.getElementById("loader_pc").style.display = "none";
         document.getElementById("countries_list").style.display = "block";
-        
-        
+
+
         /*console.log("list all IDs");
         var x_allElements = document.getElementsByTagName("*");
         var x_allIds = [];
@@ -356,16 +356,16 @@ $.each(countries, function(i, c) {
           if (x_el.id) { x_allIds.push(x_el.id); console.log(x_el.id); }
         }
         */
-        
-        
+
+
         //console.log("Tidy SVG to match Last.fm idiosyncracies");
         svg.selectAll("#Vietnam").attr("id","VietNam");
         svg.selectAll("#Russia").attr("id","RussianFederation");
         //svg.selectAll("#Lao PDR").attr("id","Lao People/'s Democratic Republic");
         svg.selectAll("#Tanzania").attr("id","Tanzania,UnitedRepublicof");
-        svg.selectAll("#Syria").attr("id","SyrianArabRepublic");   
+        svg.selectAll("#Syria").attr("id","SyrianArabRepublic");
         svg.selectAll("#S.Sudan").attr("id","SouthSudan");
-        //svg.selectAll("#Czech Rep/.").attr("id","Czech Republic");        
+        //svg.selectAll("#Czech Rep/.").attr("id","Czech Republic");
 
       } else {
         //console.log ('update pc');
@@ -373,7 +373,7 @@ $.each(countries, function(i, c) {
         var div_l = document.getElementById("loader_pc");
         div_l.innerHTML = "Loading: " + complete_pc + "%";
         //console.log("Searched: " + c);
-        
+
         if(c.length > 10)
           div_l.innerHTML += "<br>" + c.substr(0,7) + "...";
         else
@@ -391,12 +391,15 @@ var prevCountries = [];
 
 function mouseOut(target) {
 
+  var nameBox = document.getElementById("fixedNames");
+  nameBox.innerHTML = "Names:" + "<br>";
+
   var pos = artist_list.map(function(e) {
     return e.artist_name;
   }).indexOf(target);
 
   $.each(artist_list[pos].countries, function(i, c) {
-    
+
     var str = "#"+c;
     try {
       var selection = d3.selectAll(str);
@@ -404,8 +407,8 @@ function mouseOut(target) {
     } catch(err) {
       //console.log("Cannot select: " + str + " [" + "]");
     }
-    
-  });  
+
+  });
 }
 
 function mouseOver(target) {
@@ -414,17 +417,22 @@ function mouseOver(target) {
     return e.artist_name;
   }).indexOf(target);
 
+  var nameBox = document.getElementById("fixedNames");
+  nameBox.innerHTML = nameBox.innerHTML + "<br>";
+
   $.each(artist_list[pos].countries, function(i, c) {
-    
+
     var str = "#"+c;
-    //console.log(str)
+    // console.log(str);
+    nameBox.innerHTML = nameBox.innerHTML + c + ", ";
+
     try {
       var selection = d3.selectAll(str);
       selection.transition().style("fill","blue");
     } catch(err) {
       //console.log("Cannot select: " + str + " [" + "]");
     }
- 
+
   });
 
 }
@@ -440,7 +448,7 @@ var svg = d3.select("body").append("svg")
 
 //console.log("Set up svg element");
 
-d3.json("https://raw.githubusercontent.com/jiminyhall/maps/master/world.json", function(error, world) {
+d3.json("js/world.json", function(error, world) {
 
   //console.log("Start svg!");
 
@@ -463,15 +471,15 @@ d3.json("https://raw.githubusercontent.com/jiminyhall/maps/master/world.json", f
       return "" + d.id.replace(/ /g,'');
     })
     .attr("d", path)
-    .on("mouseover", function() { 
-      console.log(this.id); 
+    .on("mouseover", function() {
+      console.log(this.id);
       console.log(allCountries.length);
       var pos = allCountries.map(function(e) { return e.name; }).indexOf(this.id);
       console.log(pos);
       console.log(allCountries[pos].countries.topartists.artist.map(function(e) { return e.name; }));
     });
 
-  
+
   if (error) return console.error(error);
   //console.log(world);
 });
