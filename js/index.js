@@ -246,27 +246,28 @@ var artist_list = [];
 var complete_pc = 0;
 var allCountries = [];
 
+// for each country in the list abouve, run the following function
 $.each(countries, function(i, c) {
 
-  // https://ws.audioscrobbler.com//2.0/?method=geo.gettopartists&country=spain&api_key=58c7574ddd5054ce095f027a95a92e58&format=json
-
+  // make the call to the Last.fm API
   $.ajax({
-    type: 'POST',
-    url: 'https://ws.audioscrobbler.com/2.0/',
-    data: 'method=geo.gettopartists&' +
-      'country=' + c + '&' +
-      'limit=10&' +
-      'api_key=58c7574ddd5054ce095f027a95a92e58&' +
-      'format=json',
+    type: 'POST',                                   // type of request
+    url: 'https://ws.audioscrobbler.com/2.0/',      // api url
+    data: 'method=geo.gettopartists&' +             // api call
+      'country=' + c + '&' +                        // country name
+      'limit=10&' +                                 // number of results
+      'api_key=58c7574ddd5054ce095f027a95a92e58&' + // api key
+      'format=json',                                // return format
     dataType: 'jsonp',
-    success: function(data) {
+    success: function(data) {                       // if returns data
 
       try {
-        //console.log(c);
+        console.log(c);
 
         var c_data = {
           name: c.replace(/ /g,''),
           countries: data
+          // long-name: c
         };
         allCountries.push(c_data);
 
@@ -392,7 +393,7 @@ var prevCountries = [];
 function mouseOut(target) {
 
   var nameBox = document.getElementById("fixedNames");
-  nameBox.innerHTML = "Names:" + "<br>";
+  nameBox.innerHTML = "Top 10 in:" + "<br>";
 
   var pos = artist_list.map(function(e) {
     return e.artist_name;
@@ -472,8 +473,8 @@ d3.json("js/world.json", function(error, world) {
     })
     .attr("d", path)
     .on("mouseover", function() {
-      console.log(this.id);
-      console.log(allCountries.length);
+      console.log("Country ID: " + this.id + " out of: " + allCountries.length);
+
       var pos = allCountries.map(function(e) { return e.name; }).indexOf(this.id);
       console.log(pos);
       console.log(allCountries[pos].countries.topartists.artist.map(function(e) { return e.name; }));
