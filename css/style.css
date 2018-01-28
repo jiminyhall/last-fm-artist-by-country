@@ -26,6 +26,7 @@
 
 #container {
   position: fixed;
+  background-color: rgba(75,75,75,0.75);
   width: 680px;
   left: 50%;
   height: 560px;
