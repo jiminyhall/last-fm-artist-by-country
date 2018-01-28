@@ -1,7 +1,11 @@
 /*
  * array of artists objects - { name, [countries] };
  */
-var countries_test = ["United States", "United Kingdom", "France"];
+var countries_test = ["United States", "United Kingdom", "France", "American Samoa",
+"Andorra",
+"Angola","Bahrain",
+"Bangladesh",
+"Barbados"];
 
 var countries = [
   "Afghanistan",
@@ -323,13 +327,23 @@ $.each(countries, function(i, c) {
         });
 
         var div = document.getElementById("countries_list");
-        div.innerHTML = div.innerHTML + "<ol>";
+        div.innerHTML = div.innerHTML + "<ul>";
 
         $.each(artist_list, function(i, item) {
 
           /*var str = "<li><img src=" + item.artist_image + "/><a href='#' onmouseover='mouseOver(\"" + item.artist_name + "\")' onmouseout='mouseOut(\"" + item.artist_name + "\")'>" + item.artist_name + "</a> (" + item.countries.length + ")</li>";*/
 
-          var str = "<li><img src=" + item.artist_image + "/><a href='#' onmouseover='mouseOver(\"" + item.artist_name + "\")' onmouseout='mouseOut(\"" + item.artist_name + "\")'>name</a></li>";
+          var str = "<li>" +
+                    //"<img src=\"" + item.artist_image + "\"/>" +
+                    "<a href='#'" +
+                    "   onmouseover='mouseOver(\"" + item.artist_name + "\")'"+
+                    "   onmouseout='mouseOut(\"" + item.artist_name + "\")'" +
+                    ">" +
+                    "<img src=\"" + item.artist_image + "\"/>" +
+                    "</a>"+
+                    "</li>";
+
+          console.log(str);
 
           /*
                   +
@@ -345,7 +359,7 @@ $.each(countries, function(i, c) {
 
         });
 
-        div.innerHTML = div.innerHTML + "</ol>";
+        div.innerHTML = div.innerHTML + "</ul>";
 
         document.getElementById("loader").style.display = "none";
         document.getElementById("loader_pc").style.display = "none";
@@ -396,7 +410,7 @@ var prevCountries = [];
 function mouseOut(target) {
 
   var nameBox = document.getElementById("fixedNames");
-  nameBox.innerHTML = "Top 10 in:" + "<br>";
+  nameBox.innerHTML = "To use:<br>Move cursor over an artist image from the list below.";
 
   var pos = artist_list.map(function(e) {
     return e.artist_name;
@@ -422,13 +436,11 @@ function mouseOver(target) {
   }).indexOf(target);
 
   var nameBox = document.getElementById("fixedNames");
-  nameBox.innerHTML = nameBox.innerHTML + "<br>";
+  nameBox.innerHTML = target + "<br>Top 10 in " + artist_list[pos].countries.length + " countries";
 
   $.each(artist_list[pos].countries, function(i, c) {
 
     var str = "#"+c;
-    // console.log(str);
-    nameBox.innerHTML = nameBox.innerHTML + c + ", ";
 
     try {
       var selection = d3.selectAll(str);
@@ -446,7 +458,7 @@ function mouseOver(target) {
 var width = 640,
   height = 360;
 
-var svg = d3.select("#container").append("svg")
+var svg = d3.select("#svg-container").append("svg")
   .attr("width", width)
   .attr("height", height);
 

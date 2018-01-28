@@ -4,6 +4,7 @@
   //margin-top: 5px;
   //height: 50px;
   //width: 640px;
+  text-shadow: 2px 2px black;
 
 }
 /*
@@ -18,17 +19,13 @@
 */
 
 #fixedNames {
-  text-align: left;
-
-  width: 640px;
-  height: 70px;
-  // background-color: red;
+  //  text-align: left;
+  text-shadow: 2px 2px black;
 }
 
 
 #container {
   position: fixed;
-  background-color: red;
   width: 680px;
   left: 50%;
   height: 560px;
@@ -56,19 +53,18 @@ svg {
 }
 
 #loader {
-  // position: absolute;
-  // left: 50%;
-  // top: 50%;
+  position: absolute;
+  left: 50%;
+  top: 575px;
   float: right;
   z-index: 1;
   width: 150px;
   height: 150px;
-  margin-right: 70px;
+  margin-left: -75px;
   border: 16px solid #ffff33;
   border-radius: 50%;
   border-top: 16px solid #4d4d4d;
-  width: 120px;
-  height: 120px;
+
   -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
 }
@@ -109,7 +105,7 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
-a { text-decoration: none; color: #ffffff; }
+/*a { text-decoration: none; color: #ffffff; }*/
 a:hover { text-decoration: underline; }
 
 .footer {
@@ -139,6 +135,7 @@ li {
 img {
   vertical-align:middle;
   margin-right: 5px;
+  margin-top: 5px;
 }
 
 #countries_list {
