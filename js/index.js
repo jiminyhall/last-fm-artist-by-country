@@ -449,7 +449,7 @@ var svg = d3.select("body").append("svg")
 
 //console.log("Set up svg element");
 
-d3.json("js/world.json", function(error, world) {
+d3.json("https://jiminyhall.github.io/last-fm-artist-by-country/js/world.json", function(error, world) {
 
   //console.log("Start svg!");
 
