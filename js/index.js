@@ -327,7 +327,10 @@ $.each(countries, function(i, c) {
 
         $.each(artist_list, function(i, item) {
 
-          var str = "<li><img src=" + item.artist_image + "/><a href='#' onmouseover='mouseOver(\"" + item.artist_name + "\")' onmouseout='mouseOut(\"" + item.artist_name + "\")'>" + item.artist_name + "</a> (" + item.countries.length + ")</li>";
+          /*var str = "<li><img src=" + item.artist_image + "/><a href='#' onmouseover='mouseOver(\"" + item.artist_name + "\")' onmouseout='mouseOut(\"" + item.artist_name + "\")'>" + item.artist_name + "</a> (" + item.countries.length + ")</li>";*/
+
+          var str = "<li><img src=" + item.artist_image + "/><a href='#' onmouseover='mouseOver(\"" + item.artist_name + "\")' onmouseout='mouseOut(\"" + item.artist_name + "\")'>name</a></li>";
+
           /*
                   +
                               "<td>";
@@ -443,7 +446,7 @@ function mouseOver(target) {
 var width = 640,
   height = 360;
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#container").append("svg")
   .attr("width", width)
   .attr("height", height);
 
