@@ -320,7 +320,9 @@ $.each(countries, function(i, c) {
     complete: function() {
       //console.log("Complete: " + (i+1) + " of " + countries.length + " no of artists = " + artist_list.length);
       if (i === (countries.length - 1)) {
-        //console.log("ALL COUNTRIES DONE");
+        console.log("ALL COUNTRIES DONE");
+        var div_l = document.getElementById("fixedNames");
+        div_l.innerHTML = "All counties loaded. To use:<br>Move cursor over an artist image from the list below.";
 
         artist_list.sort(function(a, b) {
           return (b.countries.length) - (a.countries.length);
@@ -388,7 +390,8 @@ $.each(countries, function(i, c) {
       } else {
         //console.log ('update pc');
         complete_pc = ((i / (countries.length - 1)) * 100).toFixed(0);
-        var div_l = document.getElementById("loader_pc");
+        //var div_l = document.getElementById("loader_pc");
+        var div_l = document.getElementById("fixedNames");
         div_l.innerHTML = "Loading: " + complete_pc + "%";
         //console.log("Searched: " + c);
 
