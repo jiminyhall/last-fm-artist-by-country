@@ -1,6 +1,4 @@
-/*
- * array of artists objects - { name, [countries] };
- */
+
 var countries_test = ["United States", "United Kingdom", "France", "American Samoa",
 "Andorra",
 "Angola","Bahrain",
@@ -246,6 +244,9 @@ var countries = [
   "Zimbabwe"
 ];
 
+/*
+ * array of artists objects - { name, [countries] };
+ */
 var artist_list = [];
 var complete_pc = 0;
 var allCountries = [];
