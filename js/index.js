@@ -267,7 +267,7 @@ $.each(countries, function(i, c) {
     success: function(data) {                       // if returns data
 
       try {
-        console.log(c);
+        //console.log(c);
 
         var c_data = {
           name: c.replace(/ /g,''),
@@ -346,7 +346,7 @@ $.each(countries, function(i, c) {
                     "</a>"+
                     "</li>";
 
-          console.log(str);
+          //console.log(str);
 
           /*
                   +
@@ -459,8 +459,23 @@ function mouseOver(target) {
 
 //console.log("Set up map");
 
-var width = 640,
-  height = 360;
+console.log("Inner width: " + window.innerWidth);
+
+var width, height;
+
+if(window.innerWidth<window.innerHeight) {
+  width = window.innerWidth-19,
+  height = window.innerWidth-19/2;
+} else {
+  height = window.innerHeight*0.75;
+  width = height*2;
+  if(width>window.innerWidth-19) {
+    width=window.innerWidth-19;
+    height=width/2;
+  }
+}
+
+d3.select("#countries_list").attr("padding-top", height);
 
 var svg = d3.select("#svg-container").append("svg")
   .attr("width", width)
@@ -474,7 +489,7 @@ d3.json("https://jiminyhall.github.io/last-fm-artist-by-country/js/world.json", 
 
   var subunits = topojson.feature(world, world.objects);
   var projection = d3.geo.winkel3()
-    .scale(130)
+    .scale(width/6)
     .center([10, 12])
     .translate([width / 2, height / 2]);
   var path = d3.geo.path().projection(projection);
