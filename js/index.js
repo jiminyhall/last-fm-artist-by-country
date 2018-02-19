@@ -250,6 +250,8 @@ var countries = [
 var artist_list = [];
 var complete_pc = 0;
 var allCountries = [];
+var prevCountries = [];
+var width, height;
 
 // for each country in the list abouve, run the following function
 $.each(countries, function(i, c) {
@@ -364,20 +366,7 @@ $.each(countries, function(i, c) {
 
         div.innerHTML = div.innerHTML + "</ul>";
 
-        document.getElementById("loader").style.display = "none";
-        document.getElementById("loader_pc").style.display = "none";
         document.getElementById("countries_list").style.display = "block";
-
-
-        /*console.log("list all IDs");
-        var x_allElements = document.getElementsByTagName("*");
-        var x_allIds = [];
-        for (var x_i = 0, x_n = x_allElements.length; x_i < x_n; ++x_i) {
-          var x_el = x_allElements[x_i];
-          if (x_el.id) { x_allIds.push(x_el.id); console.log(x_el.id); }
-        }
-        */
-
 
         //console.log("Tidy SVG to match Last.fm idiosyncracies");
         svg.selectAll("#Vietnam").attr("id","VietNam");
@@ -405,11 +394,15 @@ $.each(countries, function(i, c) {
     }
 
   });
-
-  //console.log(artist_list.length);
 });
 
-var prevCountries = [];
+var svg = d3.select("#svg-container").append("svg");
+redraw();
+// Redraw based on the new size whenever the browser window is resized.
+window.addEventListener("resize", redraw);
+
+
+
 
 function mouseOut(target) {
 
@@ -459,62 +452,78 @@ function mouseOver(target) {
 
 //console.log("Set up map");
 
-console.log("Inner width: " + window.innerWidth);
+function redraw() {
 
-var width, height;
+  console.log("Inner width: " + window.innerWidth);
 
-if(window.innerWidth<window.innerHeight) {
-  width = window.innerWidth-19,
-  height = window.innerWidth-19/2;
-} else {
-  height = window.innerHeight*0.75;
-  width = height*2;
-  if(width>window.innerWidth-19) {
-    width=window.innerWidth-19;
-    height=width/2;
+
+
+  if(window.innerWidth<window.innerHeight) {
+    console.log("1");
+    width = window.innerWidth-19;
+    height = (window.innerWidth-19)/2;
+  } else {
+    console.log("2");
+    height = window.innerHeight*0.75;
+    width = height*2;
+    if(width>window.innerWidth-19) {
+      console.log("2.1");
+      width=window.innerWidth-19;
+      height=width/2;
+    } else {
+      document.getElementById("container").style.left = (window.innerWidth-width)/2+"px";
+    }
   }
+
+  var h = $('#fixedNames').height() + height;
+
+  d3.select("#countries_list").style("padding-top", (h)+"px" );
+
+  svg
+    .attr("width", width)
+    .attr("height", height);
+
+  d3.selectAll("path.subunit").remove();
+
+  //console.log("Set up svg element");
+
+  d3.json("https://jiminyhall.github.io/last-fm-artist-by-country/js/world.json", function(error, world) {
+
+    //console.log("Start svg!");
+
+    var subunits = topojson.feature(world, world.objects);
+    var projection = d3.geo.winkel3()
+      .scale(width/5.5)
+      .center([10, 12])
+      .translate([width / 2, height / 2]);
+    var path = d3.geo.path().projection(projection);
+
+    svg.append("path")
+      .datum(subunits)
+      .attr("d", path);
+
+    svg.selectAll(".subunit")
+      .data(topojson.feature(world, world.objects.subunits).features)
+      .enter().append("path")
+      .attr("class", "subunit")
+      .attr("id", function(d) {
+        return "" + d.id.replace(/ /g,'');
+      })
+      .attr("d", path)
+      .on("mouseover", function() {
+        console.log("Country ID: " + this.id + " out of: " + allCountries.length);
+
+        var pos = allCountries.map(function(e) { return e.name; }).indexOf(this.id);
+        console.log(pos);
+        console.log(allCountries[pos].countries.topartists.artist.map(function(e) { return e.name; }));
+      });
+
+
+    if (error) return console.error(error);
+    //console.log(world);
+  });
 }
 
-d3.select("#countries_list").attr("padding-top", height);
+function redraw2() {
 
-var svg = d3.select("#svg-container").append("svg")
-  .attr("width", width)
-  .attr("height", height);
-
-//console.log("Set up svg element");
-
-d3.json("https://jiminyhall.github.io/last-fm-artist-by-country/js/world.json", function(error, world) {
-
-  //console.log("Start svg!");
-
-  var subunits = topojson.feature(world, world.objects);
-  var projection = d3.geo.winkel3()
-    .scale(width/6)
-    .center([10, 12])
-    .translate([width / 2, height / 2]);
-  var path = d3.geo.path().projection(projection);
-
-  svg.append("path")
-    .datum(subunits)
-    .attr("d", path);
-
-  svg.selectAll(".subunit")
-    .data(topojson.feature(world, world.objects.subunits).features)
-    .enter().append("path")
-    .attr("class", "subunit")
-    .attr("id", function(d) {
-      return "" + d.id.replace(/ /g,'');
-    })
-    .attr("d", path)
-    .on("mouseover", function() {
-      console.log("Country ID: " + this.id + " out of: " + allCountries.length);
-
-      var pos = allCountries.map(function(e) { return e.name; }).indexOf(this.id);
-      console.log(pos);
-      console.log(allCountries[pos].countries.topartists.artist.map(function(e) { return e.name; }));
-    });
-
-
-  if (error) return console.error(error);
-  //console.log(world);
-});
+}
